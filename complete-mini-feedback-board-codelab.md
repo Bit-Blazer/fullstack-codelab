@@ -110,12 +110,6 @@ Let's create the folder structure for our fullstack application and understand h
    dir
    ```
 
-5. **Initialize Git repository:**
-
-   ```console
-   git init
-   ```
-
 ### Verify Your Setup
 
 In VS Code, you should see:
