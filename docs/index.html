@@ -1,0 +1,2207 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Mini Feedback Board: Complete Fullstack Web Application</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="mini-feedback-board-fullstack"
+                  title="Mini Feedback Board: Complete Fullstack Web Application"
+                  environment="web"
+                  feedback-link="https://github.com/Bit-Blazer/">
+    
+      <google-codelab-step label="What You&#39;ll Learn Today" duration="2">
+        <p>Welcome to an exciting journey into fullstack web development!</p>
+<p>Today, you&#39;ll build a <strong>Mini Feedback Board</strong> - a complete web application where users can submit, view, and interact with feedback posts.</p>
+<h2 is-upgraded>What is Fullstack Development?</h2>
+<p>Fullstack development means building <strong>both</strong> the frontend (what users see) and backend (server logic) of a web application. Think of it like building a restaurant:</p>
+<ul>
+<li><strong>Frontend (Client)</strong> = The dining area where customers sit and order</li>
+<li><strong>Backend (Server)</strong> = The kitchen where food is prepared</li>
+<li><strong>Database</strong> = The pantry where ingredients are stored</li>
+<li><strong>Deployment</strong> = Opening the restaurant to the public</li>
+</ul>
+<h2 is-upgraded>Your Mini Feedback Board Architecture</h2>
+<p class="image-container"><img alt="alt text" src="img\\d0bc2684687b0d6.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prerequisites and Setup" duration="5">
+        <p>Before we dive in, let&#39;s make sure you have everything needed for this tutorial.</p>
+<h2 is-upgraded>Required Knowledge</h2>
+<p>You should be comfortable with:</p>
+<ul>
+<li>Basic HTML, CSS, and JavaScript</li>
+<li>Using command line/terminal</li>
+<li>Basic Git operations (clone, add, commit, push)</li>
+</ul>
+<h2 is-upgraded>Install Required Tools</h2>
+<p>We need three tools for fullstack development. Install them all now:</p>
+<p><strong>1. Node.js (JavaScript runtime for backend)</strong></p>
+<ul>
+<li>Visit: <a href="https://nodejs.org" target="_blank">Node.js</a></li>
+<li>Download LTS version and install with default settings</li>
+<li>Verify: <code>node --version</code> and <code>npm --version</code> (should be Node 18+ and npm 8+)</li>
+</ul>
+<p><strong>2. VS Code (code editor)</strong></p>
+<ul>
+<li>Visit: <a href="https://code.visualstudio.com" target="_blank">VS Code</a></li>
+<li>Download for your OS and install with default settings</li>
+</ul>
+<p><strong>3. Git (version control)</strong></p>
+<ul>
+<li><strong>Windows: </strong><a href="https://git-scm.com/download/win" target="_blank">Git for Windows</a> - install with defaults</li>
+<li>Configure:</li>
+</ul>
+<pre><code language="language-bash" class="language-bash">git config --global user.name &#34;Your Name&#34;
+git config --global user.email &#34;your.email@example.com&#34;
+</code></pre>
+<ul>
+<li>Verify: <code>git --version</code></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Project Structure" duration="4">
+        <p>Let&#39;s create the folder structure for our fullstack application and understand how we&#39;ll work with it.</p>
+<h2 is-upgraded>Why Separate Frontend and Backend?</h2>
+<ul>
+<li><strong>Clear organization</strong> - Easy to find frontend vs backend code</li>
+<li><strong>Independent deployment</strong> - Can deploy each part separately if needed</li>
+<li><strong>Team collaboration</strong> - Different developers can work on different parts</li>
+<li><strong>Different dependencies</strong> - Each part has its own package.json</li>
+</ul>
+<h2 is-upgraded>Create the Project</h2>
+<ol type="1">
+<li><strong>Navigate to your development folder</strong> (create one if you don&#39;t have it):<pre>cd D:\Projects
+</pre>
+</li>
+<li><strong>Create the main project folder:</strong><pre>mkdir mini-feedback-board
+cd mini-feedback-board
+</pre>
+</li>
+<li><strong>Create the frontend and backend folders:</strong><pre>mkdir frontend
+mkdir backend
+</pre>
+</li>
+<li><strong>Verify your structure:</strong><pre>dir
+</pre>
+</li>
+<li><strong>Initialize Git repository:</strong><pre>git init
+</pre>
+</li>
+</ol>
+<h2 is-upgraded>Verify Your Setup</h2>
+<p>In VS Code, you should see:</p>
+<pre><code>mini-feedback-board/
+├── frontend/
+├── backend/
+└── README.md
+</code></pre>
+<h2 is-upgraded>Development Workflow</h2>
+<p>Now let&#39;s understand how we&#39;ll work with our fullstack setup:</p>
+<p><strong>Development Process:</strong></p>
+<ol type="1">
+<li><strong>Backend First</strong> - We&#39;ll build our API endpoints</li>
+<li><strong>Test with cURL</strong> - Verify our API works</li>
+<li><strong>Frontend</strong> - Build React components that consume the API</li>
+<li><strong>Integration</strong> - Connect frontend to backend</li>
+<li><strong>Deploy</strong> - Put it live on the internet</li>
+</ol>
+<p><strong>Ports and URLs:</strong></p>
+<p>During development, we&#39;ll run:</p>
+<ul>
+<li><strong>Backend server: </strong><code>http://localhost:3001</code> (Express.js API)</li>
+<li><strong>Frontend server: </strong><code>http://localhost:5173</code> (React + Vite)</li>
+</ul>
+<aside class="warning"><p><strong>Important:</strong> We&#39;ll run TWO development servers simultaneously - one for frontend, one for backend. This is normal in fullstack development!</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup Backend with Express and CORS" duration="4">
+        <p>Now let&#39;s create our backend API server using Node.js and Express.js. We&#39;ll start in the <code>backend</code> folder and set up our project structure with all necessary dependencies.</p>
+<h2 is-upgraded>Why Express.js?</h2>
+<p>Express.js is the most popular Node.js web framework because it&#39;s:</p>
+<ul>
+<li><strong>Simple and minimalist</strong> - Easy to learn and use</li>
+<li><strong>Flexible</strong> - Can build APIs, web apps, or both</li>
+<li><strong>Well-documented</strong> - Tons of tutorials and community support</li>
+<li><strong>Battle-tested</strong> - Used by companies like Netflix, Uber, and WhatsApp</li>
+</ul>
+<h2 is-upgraded>Navigate to Backend Folder</h2>
+<p>First, let&#39;s navigate to our backend directory and initialize our Node.js project:</p>
+<pre>cd backend
+</pre>
+<h2 is-upgraded>Initialize npm Project</h2>
+<p>Run the npm initialization command to create a <code>package.json</code> file:</p>
+<pre>npm init -y
+</pre>
+<p>The <code>-y</code> flag accepts all the default settings automatically.</p>
+<h2 is-upgraded>Install Required Packages</h2>
+<p>Now let&#39;s install all the packages we need for our API server:</p>
+<pre>npm install express cors
+</pre>
+<p><strong>What we&#39;re installing:</strong></p>
+<ul>
+<li><strong>Express.js</strong> - Our web server framework</li>
+<li><strong>CORS</strong> - Cross-Origin Resource Sharing to allow frontend communication</li>
+</ul>
+<h2 is-upgraded>Why Do We Need CORS?</h2>
+<p>By default, browsers block requests between different ports for security. Since our:</p>
+<ul>
+<li>Frontend runs on <code>http://localhost:5173</code></li>
+<li>Backend runs on <code>http://localhost:3001</code></li>
+</ul>
+<p>We need CORS to allow communication between them.</p>
+<h2 is-upgraded>Understanding package.json</h2>
+<p>The <code>package.json</code> file is like a blueprint for your project:</p>
+<ul>
+<li><strong>name</strong> - Your project name</li>
+<li><strong>version</strong> - Current version of your project</li>
+<li><strong>main</strong> - Entry point file (we&#39;ll create <code>index.js</code>)</li>
+<li><strong>scripts</strong> - Commands you can run with <code>npm run</code></li>
+<li><strong>dependencies</strong> - Packages your app needs to run</li>
+</ul>
+<h2 is-upgraded>Verify Installation</h2>
+<p>Check your <code>package.json</code> file. It should now include:</p>
+<pre><code language="language-json" class="language-json">{
+  &#34;dependencies&#34;: {
+    &#34;cors&#34;: &#34;^2.8.5&#34;,
+    &#34;express&#34;: &#34;^4.18.2&#34;
+  }
+}
+</code></pre>
+<aside class="special"><p><strong>Pro Tip:</strong> Think of <code>package.json</code> like a recipe card - it tells npm exactly what ingredients (dependencies) and instructions (scripts) your project needs!</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create the Express Server" duration="8">
+        <p>Now let&#39;s create our main server file with a basic Express.js setup, add API routes, and test everything works properly.</p>
+<h2 is-upgraded>Create index.js</h2>
+<p>In your <code>backend</code> folder, create a new file called <code>index.js</code>:</p>
+<pre><code language="language-javascript" class="language-javascript">// Import required packages
+const express = require(&#34;express&#34;);
+const cors = require(&#34;cors&#34;);
+
+// Create Express application
+const app = express();
+
+// Set port (use environment variable or default to 3001)
+const PORT = process.env.PORT || 3001;
+
+// Middleware
+app.use(cors()); // Enable CORS for all routes
+app.use(express.json()); // Parse JSON request bodies
+
+// Basic route to test server is working
+app.get(&#34;/&#34;, (req, res) =&gt; {
+  res.json({
+    message: &#34;Mini Feedback Board API is running!&#34;,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// API Routes
+app.get(&#34;/api/hello&#34;, (req, res) =&gt; {
+  res.json({
+    message: &#34;Hello from the Mini Feedback Board API!&#34;,
+    status: &#34;success&#34;,
+    data: {
+      version: &#34;1.0.0&#34;,
+      endpoints: [
+        &#34;GET /api/hello&#34;,
+        &#34;GET /api/feedback (coming soon)&#34;,
+        &#34;POST /api/feedback (coming soon)&#34;,
+      ],
+    },
+  });
+});
+
+// Start the server
+app.listen(PORT, () =&gt; {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`📝 API endpoints available at http://localhost:${PORT}/api`);
+});
+</code></pre>
+<h2 is-upgraded>Understanding the Code</h2>
+<p>Let&#39;s break down what each part does:</p>
+<ol type="1">
+<li><strong>Import packages</strong> - We bring in Express and CORS</li>
+<li><strong>Create app</strong> - Initialize our Express application</li>
+<li><strong>Set PORT</strong> - Use environment variable or default to 3001</li>
+<li><strong>Add middleware</strong>: <ul>
+<li><code>cors()</code> - Allows cross-origin requests</li>
+<li><code>express.json()</code> - Parses incoming JSON data</li>
+</ul>
+</li>
+<li><strong>Define routes</strong> - Root endpoint and API hello endpoint</li>
+<li><strong>Start server</strong> - Listen on the specified port</li>
+</ol>
+<aside class="warning"><p><strong>Important:</strong> Always use <code>/api/</code> prefix for your endpoints. This is a widely accepted standard that makes your API more professional and easier to manage.</p>
+</aside>
+<h2 is-upgraded>Add npm Scripts</h2>
+<p>Update your <code>package.json</code> scripts section to make running the server easier:</p>
+<pre><code language="language-json" class="language-json">{
+  &#34;scripts&#34;: {
+    &#34;start&#34;: &#34;node index.js&#34;
+  }
+}
+</code></pre>
+<h2 is-upgraded>Start the Development Server</h2>
+<p>In your terminal (make sure you&#39;re in the <code>backend</code> folder), run:</p>
+<pre>npm start
+</pre>
+<h2 is-upgraded>Test in Browser</h2>
+<ol type="1">
+<li><strong>Open your web browser</strong></li>
+<li><strong>Navigate to: </strong><code>http://localhost:3001</code></li>
+</ol>
+<p>You should see:</p>
+<pre><code language="language-json" class="language-json">{
+  &#34;message&#34;: &#34;Mini Feedback Board API is running!&#34;,
+  &#34;timestamp&#34;: &#34;2024-01-15T10:30:45.123Z&#34;
+}
+</code></pre>
+<ol type="1" start="3">
+<li><strong>Navigate to: </strong><code>http://localhost:3001/api/hello</code></li>
+</ol>
+<p>You should see:</p>
+<pre><code language="language-json" class="language-json">{
+  &#34;message&#34;: &#34;Hello from the Mini Feedback Board API!&#34;,
+  &#34;status&#34;: &#34;success&#34;,
+  &#34;data&#34;: {
+    &#34;version&#34;: &#34;1.0.0&#34;,
+    &#34;endpoints&#34;: [
+      &#34;GET /api/hello&#34;,
+      &#34;GET /api/feedback (coming soon)&#34;,
+      &#34;POST /api/feedback (coming soon)&#34;
+    ]
+  }
+}
+</code></pre>
+<h2 is-upgraded>Test with cURL Commands</h2>
+<p>Open a new terminal window (keep your server running in the first one) and test with cURL:</p>
+<p><strong>Test root endpoint:</strong></p>
+<pre>curl http://localhost:3001
+</pre>
+<p><strong>Test API hello endpoint:</strong></p>
+<pre>curl http://localhost:3001/api/hello
+</pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup Supabase" duration="6">
+        <p>Now we need a database to store our feedback messages! We&#39;ll use Supabase - a modern, open-source alternative to Firebase that gives us a PostgreSQL database with a RESTful API.</p>
+<h2 is-upgraded>Why Supabase?</h2>
+<p>Supabase is perfect for our project because it provides:</p>
+<ul>
+<li><strong>PostgreSQL database</strong> - Reliable, SQL-based database</li>
+<li><strong>Instant APIs</strong> - Automatically creates REST endpoints</li>
+<li><strong>Real-time subscriptions</strong> - Live updates when data changes</li>
+<li><strong>Built-in authentication</strong> - User management (for future features)</li>
+<li><strong>Free tier</strong> - Perfect for learning and small projects</li>
+<li><strong>Easy integration</strong> - Works seamlessly with JavaScript</li>
+</ul>
+<h2 is-upgraded>Create Your Supabase Account</h2>
+<ol type="1">
+<li><strong>Visit Supabase:</strong><pre>https://supabase.com
+</pre>
+</li>
+<li><strong>Click &#34;Start your project&#34;</strong> or <strong>&#34;Sign Up&#34;</strong></li>
+<li><strong>Sign up using your GitHub account</strong> (recommended) or email<ul>
+<li>GitHub signup is faster and more secure</li>
+<li>You can use your existing GitHub account from your development setup</li>
+</ul>
+</li>
+<li><strong>Verify your email</strong> if you signed up with email</li>
+</ol>
+<h2 is-upgraded>Create a New Project</h2>
+<ol type="1">
+<li><strong>Click &#34;New Project&#34;</strong> on your dashboard</li>
+<li><strong>Fill in project details:</strong><ul>
+<li><strong>Organization:</strong> Use your default organization</li>
+<li><strong>Name: </strong><code>mini-feedback-board</code></li>
+<li><strong>Database Password:</strong> Create a strong password (save this!)</li>
+<li><strong>Region:</strong> Choose the region closest to you</li>
+<li><strong>Pricing Plan:</strong> Free (perfect for our tutorial)</li>
+</ul>
+</li>
+<li><strong>Click &#34;Create new project&#34;</strong></li>
+<li><strong>Wait for setup</strong> - This takes 1-2 minutes. Supabase is creating your PostgreSQL database and setting up all the APIs.</li>
+</ol>
+<h2 is-upgraded>Get Your API Credentials</h2>
+<p>Now we need to get our API credentials so our backend can communicate with the Supabase database.</p>
+<p><strong>Find Your Project Settings:</strong></p>
+<ol type="1">
+<li><strong>Click the &#34;Settings&#34; icon</strong> in the left sidebar (gear icon)</li>
+<li><strong>Click &#34;Data API&#34;</strong> in the settings menu<ul>
+<li>Look for &#34;Project URL&#34;</li>
+<li>It looks like: <code>https://your-project-id.supabase.co</code></li>
+<li><strong>Copy this URL</strong></li>
+</ul>
+</li>
+<li><strong>Click &#34;API Keys&#34;</strong> in the settings menu<ul>
+<li>Look for &#34;Legacy API keys&#34;</li>
+<li>Find the <strong>&#34;anon public&#34;</strong> key (not the service role key)</li>
+<li>It&#39;s a long string starting with <code>eyJ...</code></li>
+<li><strong>Copy this key</strong></li>
+</ul>
+</li>
+</ol>
+<h2 is-upgraded>Understanding the Keys</h2>
+<p><strong>Project URL:</strong></p>
+<ul>
+<li>The base URL for all API requests to your database</li>
+<li>Think of it as your database&#39;s address on the internet</li>
+</ul>
+<p><strong>Anon Key:</strong></p>
+<ul>
+<li>Allows read/write access to your database</li>
+<li>&#34;Anon&#34; means &#34;anonymous&#34; - no user login required</li>
+<li>Safe to use in frontend code (has built-in security limitations)</li>
+</ul>
+<aside class="warning"><p><strong>Keep Keys Safe:</strong> While the anon key is safe for frontend use, never share your service role key publicly. The service role key has admin access to your database.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create the Messages Table" duration="3">
+        <p>Before creating our table, let&#39;s plan what data we need to store for each feedback message, then create it using SQL.</p>
+<h2 is-upgraded>Understanding Database Schema</h2>
+<p>A database <strong>schema</strong> is like a blueprint that defines:</p>
+<ul>
+<li>What tables we have</li>
+<li>What columns each table contains</li>
+<li>What type of data goes in each column</li>
+<li>Rules and constraints for the data</li>
+</ul>
+<h2 is-upgraded>Our Messages Table Structure</h2>
+<p>For our Mini Feedback Board, each feedback message needs:</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Column Name</p>
+</td><td colspan="1" rowspan="1"><p>Data Type</p>
+</td><td colspan="1" rowspan="1"><p>Purpose</p>
+</td><td colspan="1" rowspan="1"><p>Example</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>id</code></p>
+</td><td colspan="1" rowspan="1"><p>UUID</p>
+</td><td colspan="1" rowspan="1"><p>Unique identifier</p>
+</td><td colspan="1" rowspan="1"><p><code>550e8400-e29b-41d4-a716-446655440000</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>name</code></p>
+</td><td colspan="1" rowspan="1"><p>TEXT</p>
+</td><td colspan="1" rowspan="1"><p>User&#39;s name</p>
+</td><td colspan="1" rowspan="1"><p><code>"Sarah Johnson"</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>message</code></p>
+</td><td colspan="1" rowspan="1"><p>TEXT</p>
+</td><td colspan="1" rowspan="1"><p>Feedback content</p>
+</td><td colspan="1" rowspan="1"><p><code>"Great app! Love the interface."</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>rating</code></p>
+</td><td colspan="1" rowspan="1"><p>INTEGER</p>
+</td><td colspan="1" rowspan="1"><p>Rating 1-5 stars</p>
+</td><td colspan="1" rowspan="1"><p><code>4</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>upvotes</code></p>
+</td><td colspan="1" rowspan="1"><p>INTEGER</p>
+</td><td colspan="1" rowspan="1"><p>Number of upvotes</p>
+</td><td colspan="1" rowspan="1"><p><code>12</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>downvotes</code></p>
+</td><td colspan="1" rowspan="1"><p>INTEGER</p>
+</td><td colspan="1" rowspan="1"><p>Number of downvotes</p>
+</td><td colspan="1" rowspan="1"><p><code>2</code></p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p><code>created_at</code></p>
+</td><td colspan="1" rowspan="1"><p>TIMESTAMP</p>
+</td><td colspan="1" rowspan="1"><p>When created</p>
+</td><td colspan="1" rowspan="1"><p><code>2024-01-15 10:30:45</code></p>
+</td></tr>
+</table>
+<h2 is-upgraded>Why These Data Types?</h2>
+<ul>
+<li><strong>UUID for id</strong> - Universally unique, more secure than auto-incrementing numbers</li>
+<li><strong>TEXT for strings</strong> - Can handle any length of text</li>
+<li><strong>INTEGER for numbers</strong> - Perfect for counts and ratings</li>
+<li><strong>TIMESTAMP</strong> - Automatically tracks when records are created</li>
+</ul>
+<h2 is-upgraded>Create the Table with SQL</h2>
+<p>Now let&#39;s create our database table using SQL Queries in Supabase.</p>
+<p><strong>Access SQL Editor:</strong></p>
+<ol type="1">
+<li><strong>Go to your Supabase project dashboard</strong></li>
+<li><strong>Click &#34;SQL Editor&#34;</strong> in the left sidebar</li>
+<li><strong>Click &#34;New Query&#34;</strong></li>
+</ol>
+<p><strong>Create Table with SQL:</strong></p>
+<p>Copy and paste this SQL command into the editor:</p>
+<pre><code language="language-sql" class="language-sql">CREATE TABLE messages (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  message TEXT NOT NULL,
+  rating INTEGER DEFAULT 5 NOT NULL,
+  upvotes INTEGER DEFAULT 0 NOT NULL,
+  downvotes INTEGER DEFAULT 0 NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
+);
+</code></pre>
+<p><strong>Understanding the SQL:</strong></p>
+<ul>
+<li><code>UUID DEFAULT gen_random_uuid() PRIMARY KEY</code> - Auto-generated unique ID</li>
+<li><code>TEXT NOT NULL</code> - Required text fields for name and message</li>
+<li><code>INTEGER DEFAULT 5 NOT NULL</code> - Rating defaults to 5 stars</li>
+<li><code>INTEGER DEFAULT 0 NOT NULL</code> - Vote counts start at 0</li>
+<li><code>TIMESTAMPTZ DEFAULT NOW() NOT NULL</code> - Auto-timestamp when created</li>
+</ul>
+<p><strong>Execute the Query:</strong></p>
+<ol type="1">
+<li><strong>Click &#34;Run&#34;</strong> to execute the SQL command</li>
+<li><strong>Verify success</strong> - You should see &#34;Success. No rows returned&#34; message</li>
+</ol>
+<p><strong>Verify Your Table:</strong></p>
+<ol type="1">
+<li><strong>Click &#34;Table Editor&#34;</strong> in the left sidebar</li>
+<li><strong>Select the &#34;messages&#34; table</strong> - You should see all 7 columns created automatically</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup Environment Variables" duration="3">
+        <p>Environment variables are a secure way to store sensitive information like API keys. Let&#39;s set them up properly.</p>
+<h2 is-upgraded>What Are Environment Variables?</h2>
+<p>Environment variables are like secret configuration settings that:</p>
+<ul>
+<li><strong>Keep sensitive data out of your code</strong> - API keys, passwords, etc.</li>
+<li><strong>Allow different settings per environment</strong> - development vs production</li>
+<li><strong>Prevent accidental sharing</strong> - Won&#39;t be committed to Git</li>
+<li><strong>Make deployment easier</strong> - Different keys for different environments</li>
+</ul>
+<p>Think of them like a secure lockbox that only your application can access.</p>
+<h2 is-upgraded>Create .env File</h2>
+<p>In your <strong>backend</strong> folder, create a new file called <code>.env</code> (note the dot at the beginning):</p>
+<pre><code language="language-env" class="language-env"># Supabase Configuration
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...your-full-key-here
+
+# Server Configuration
+PORT=3001
+</code></pre>
+<p><strong>Replace the placeholder values:</strong></p>
+<ul>
+<li>Replace <code>your-project-id.supabase.co</code> with your actual Project URL</li>
+<li>Replace <code>eyJhbGci...</code> with your actual anon key</li>
+</ul>
+<h2 is-upgraded>Add .env to .gitignore</h2>
+<p>Create or update your <code>.gitignore</code> file in the <strong>backend</strong> folder:</p>
+<p>This prevents your secret keys from being committed to Git.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install Supabase JavaScript Client" duration="3">
+        <p>Now let&#39;s install the Supabase JavaScript client library to connect our backend to the database.</p>
+<h2 is-upgraded>Install the Package</h2>
+<p>In your <strong>backend</strong> folder, run:</p>
+<pre>npm install @supabase/supabase-js
+</pre>
+<h2 is-upgraded>Install dotenv for Environment Variables</h2>
+<p>We also need the <code>dotenv</code> package to load our environment variables:</p>
+<pre>npm install dotenv
+</pre>
+<h2 is-upgraded>Create Database Connection</h2>
+<p>Create a new file called <code>config/database.js</code> in your backend folder:</p>
+<p>First, create the config folder:</p>
+<pre>mkdir config
+</pre>
+<p>Then create the file:</p>
+<pre><code language="language-javascript" class="language-javascript">// config/database.js
+const { createClient } = require(&#34;@supabase/supabase-js&#34;);
+
+// Load environment variables
+require(&#34;dotenv&#34;).config();
+
+// Supabase configuration
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
+
+// Validate environment variables
+if (!supabaseUrl || !supabaseKey) {
+  console.error(&#34;❌ Missing Supabase environment variables!&#34;);
+  console.error(
+    &#34;Make sure SUPABASE_URL and SUPABASE_ANON_KEY are set in your .env file&#34;
+  );
+  process.exit(1);
+}
+
+// Create and export Supabase client
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+console.log(&#34;✅ Supabase client connected successfully&#34;);
+
+module.exports = supabase;
+</code></pre>
+<h2 is-upgraded>Update Your Main Server File</h2>
+<p>Update your <code>index.js</code> to load environment variables at the top:</p>
+<pre><code language="language-javascript" class="language-javascript">// Load environment variables first
+require(&#34;dotenv&#34;).config();
+
+// Import required packages
+const express = require(&#34;express&#34;);
+const cors = require(&#34;cors&#34;);
+
+// Create Express application
+const app = express();
+
+// Set port (use environment variable or default to 3001)
+const PORT = process.env.PORT || 3001;
+
+// Rest of your existing code...
+</code></pre>
+<h2 is-upgraded>Test the Connection</h2>
+<p>Restart your server:</p>
+<pre>npm start
+</pre>
+<p>You should see:</p>
+<pre>✅ Supabase client connected successfully
+🚀 Server running on http://localhost:3001
+📝 API endpoints available at http://localhost:3001/api
+</pre>
+<h2 is-upgraded>Your Backend Structure</h2>
+<p>Your backend folder should now look like:</p>
+<pre><code>backend/
+├── config/
+│   └── database.js          # Supabase connection
+├── node_modules/            # Installed packages
+├── .env                     # Environment variables (secret)
+├── .gitignore               # Git ignore file
+├── index.js                 # Main server file
+├── package.json             # Project configuration
+└── package-lock.json        # Dependency versions
+</code></pre>
+<aside class="special"><p><strong>Database Connected!</strong> Your backend can now communicate with your Supabase database. The green checkmark confirms everything is working properly.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Connect Express Backend to Supabase" duration="3">
+        <p>Now it&#39;s time to build the real API endpoints that will power our Mini Feedback Board! We&#39;ll create routes to read messages, create new messages, and handle voting.</p>
+<h2 is-upgraded>Understanding CRUD Operations</h2>
+<p><strong>CRUD</strong> stands for the four basic database operations:</p>
+<ul>
+<li><strong>C</strong>reate - Add new data (POST requests)</li>
+<li><strong>R</strong>ead - Get existing data (GET requests)</li>
+<li><strong>U</strong>pdate - Modify existing data (PUT/PATCH requests)</li>
+<li><strong>D</strong>elete - Remove data (DELETE requests)</li>
+</ul>
+<p>For our feedback board, we&#39;ll implement:</p>
+<ul>
+<li><strong>Read</strong> - Get all feedback messages</li>
+<li><strong>Create</strong> - Add new feedback messages</li>
+<li><strong>Update</strong> - Upvote/downvote messages (partial update)</li>
+</ul>
+<h2 is-upgraded>API Design Planning</h2>
+<p>Our API will have these endpoints:</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Method</p>
+</td><td colspan="1" rowspan="1"><p>Endpoint</p>
+</td><td colspan="1" rowspan="1"><p>Purpose</p>
+</td><td colspan="1" rowspan="1"><p>Example</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>GET</p>
+</td><td colspan="1" rowspan="1"><p><code>/api/messages</code></p>
+</td><td colspan="1" rowspan="1"><p>Get all messages</p>
+</td><td colspan="1" rowspan="1"><p>Display feedback list</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>POST</p>
+</td><td colspan="1" rowspan="1"><p><code>/api/messages</code></p>
+</td><td colspan="1" rowspan="1"><p>Create new message</p>
+</td><td colspan="1" rowspan="1"><p>Submit feedback</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>POST</p>
+</td><td colspan="1" rowspan="1"><p><code>/api/vote</code></p>
+</td><td colspan="1" rowspan="1"><p>Vote on message</p>
+</td><td colspan="1" rowspan="1"><p>Like/dislike posts</p>
+</td></tr>
+</table>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create GET /api/messages Route" duration="4">
+        <p>Let&#39;s start with reading data - the foundation of our feedback board. This endpoint will fetch all messages from our database.</p>
+<h2 is-upgraded>Add the GET Messages Route</h2>
+<p>Add this route to your <code>index.js</code> file, after your existing routes and before <code>app.listen()</code>:</p>
+<pre><code language="language-javascript" class="language-javascript">// Import the database connection
+const supabase = require(&#34;./config/database&#34;);
+
+// ... existing routes ...
+
+// GET all messages
+app.get(&#34;/api/messages&#34;, async (req, res) =&gt; {
+  try {
+    // Fetch all messages from database, ordered by creation date (newest first)
+    const { data, error } = await supabase
+      .from(&#34;messages&#34;)
+      .select(&#34;*&#34;)
+      .order(&#34;created_at&#34;, { ascending: false });
+
+    // Handle database errors
+    if (error) {
+      console.error(&#34;Database error:&#34;, error);
+      return res.status(500).json({
+        message: &#34;Failed to fetch messages&#34;,
+        status: &#34;error&#34;,
+        error: error.message,
+      });
+    }
+
+    // Return successful response with messages
+    res.json({
+      message: &#34;Messages retrieved successfully&#34;,
+      status: &#34;success&#34;,
+      data: {
+        messages: data,
+        count: data.length,
+        timestamp: new Date().toISOString(),
+      },
+    });
+  } catch (error) {
+    console.error(&#34;Server error:&#34;, error);
+    res.status(500).json({
+      message: &#34;Internal server error&#34;,
+      status: &#34;error&#34;,
+      error: error.message,
+    });
+  }
+});
+</code></pre>
+<h2 is-upgraded>Understanding the Code</h2>
+<p><strong>Supabase Query Breakdown:</strong></p>
+<ul>
+<li><code>.from('messages')</code> - Select the messages table</li>
+<li><code>.select('*')</code> - Get all columns</li>
+<li><code>.order('created_at', { ascending: false })</code> - Sort newest first</li>
+</ul>
+<p><strong>Error Handling:</strong></p>
+<ul>
+<li>Database errors (Supabase issues)</li>
+<li>Server errors (code issues)</li>
+<li>Consistent error response format</li>
+</ul>
+<p><strong>Response Structure:</strong></p>
+<ul>
+<li>Always includes <code>message</code>, <code>status</code>, and <code>data</code></li>
+<li>Provides message count for frontend convenience</li>
+<li>Includes timestamp for debugging</li>
+</ul>
+<h2 is-upgraded>Test the GET Route</h2>
+<ol type="1">
+<li><strong>Save your file</strong> and restart the server</li>
+<li><strong>Test in browser:</strong> Go to <code>http://localhost:3001/api/messages</code></li>
+<li><strong>Test with cURL:</strong><pre>curl http://localhost:3001/api/messages
+</pre>
+</li>
+</ol>
+<h2 is-upgraded>Expected Response (Empty Database)</h2>
+<p>Since we haven&#39;t added any messages yet, you should see:</p>
+<pre><code language="language-json" class="language-json">{
+  &#34;message&#34;: &#34;Messages retrieved successfully&#34;,
+  &#34;status&#34;: &#34;success&#34;,
+  &#34;data&#34;: {
+    &#34;messages&#34;: [],
+    &#34;count&#34;: 0,
+    &#34;timestamp&#34;: &#34;2024-01-15T10:30:45.123Z&#34;
+  }
+}
+</code></pre>
+<p>The empty <code>messages</code> array is perfect - it confirms our database connection works!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create POST /api/messages Route" duration="6">
+        <p>Now let&#39;s build the endpoint to create new feedback messages. This is where users will submit their feedback.</p>
+<h2 is-upgraded>Add Input Validation Helper</h2>
+<p>First, let&#39;s create a helper function for validating message data. Add this before your routes:</p>
+<pre><code language="language-javascript" class="language-javascript">// Input validation helper
+const validateMessageInput = (data) =&gt; {
+  const errors = [];
+
+  // Check required fields
+  if (!data.name || data.name.trim() === &#34;&#34;) {
+    errors.push(&#34;Name is required&#34;);
+  }
+
+  if (!data.message || data.message.trim() === &#34;&#34;) {
+    errors.push(&#34;Message is required&#34;);
+  }
+
+  // Validate data types and ranges
+  if (data.rating &amp;&amp; (data.rating &lt; 1 || data.rating &gt; 5)) {
+    errors.push(&#34;Rating must be between 1 and 5&#34;);
+  }
+
+  // Validate string lengths
+  if (data.name &amp;&amp; data.name.length &gt; 100) {
+    errors.push(&#34;Name must be less than 100 characters&#34;);
+  }
+
+  if (data.message &amp;&amp; data.message.length &gt; 1000) {
+    errors.push(&#34;Message must be less than 1000 characters&#34;);
+  }
+
+  return errors;
+};
+</code></pre>
+<h2 is-upgraded>Add the POST Messages Route</h2>
+<p>Add this route after your GET messages route:</p>
+<pre><code language="language-javascript" class="language-javascript">// POST - Create new message
+app.post(&#34;/api/messages&#34;, async (req, res) =&gt; {
+  try {
+    // Extract data from request body
+    const { name, message, rating = 5 } = req.body;
+
+    // Validate input data
+    const validationErrors = validateMessageInput({ name, message, rating });
+    if (validationErrors.length &gt; 0) {
+      return res.status(400).json({
+        message: &#34;Validation failed&#34;,
+        status: &#34;error&#34;,
+        errors: validationErrors,
+      });
+    }
+
+    // Prepare data for database insertion
+    const newMessage = {
+      name: name.trim(),
+      message: message.trim(),
+      rating: parseInt(rating),
+      upvotes: 0,
+      downvotes: 0,
+    };
+
+    // Insert into database
+    const { data, error } = await supabase
+      .from(&#34;messages&#34;)
+      .insert([newMessage])
+      .select(); // Return the inserted data
+
+    // Handle database errors
+    if (error) {
+      console.error(&#34;Database error:&#34;, error);
+      return res.status(500).json({
+        message: &#34;Failed to create message&#34;,
+        status: &#34;error&#34;,
+        error: error.message,
+      });
+    }
+
+    // Return successful response
+    res.status(201).json({
+      message: &#34;Message created successfully&#34;,
+      status: &#34;success&#34;,
+      data: {
+        message: data[0], // Return the created message
+        timestamp: new Date().toISOString(),
+      },
+    });
+  } catch (error) {
+    console.error(&#34;Server error:&#34;, error);
+    res.status(500).json({
+      message: &#34;Internal server error&#34;,
+      status: &#34;error&#34;,
+      error: error.message,
+    });
+  }
+});
+</code></pre>
+<h2 is-upgraded>Understanding the POST Route</h2>
+<p><strong>Input Validation:</strong></p>
+<ul>
+<li>Checks required fields (name, message)</li>
+<li>Validates data types and ranges</li>
+<li>Prevents overly long inputs</li>
+</ul>
+<p><strong>Data Processing:</strong></p>
+<ul>
+<li>Trims whitespace from strings</li>
+<li>Sets default rating of 5</li>
+<li>Initializes vote counts to 0</li>
+</ul>
+<p><strong>Database Operation:</strong></p>
+<ul>
+<li><code>.insert([newMessage])</code> - Insert the new message</li>
+<li><code>.select()</code> - Return the inserted data with generated fields</li>
+</ul>
+<p><strong>HTTP Status Codes:</strong></p>
+<ul>
+<li><code>201</code> - Created successfully</li>
+<li><code>400</code> - Bad request (validation errors)</li>
+<li><code>500</code> - Server error</li>
+</ul>
+<h2 is-upgraded>Test the POST Route</h2>
+<p>Let&#39;s test creating a new message with cURL:</p>
+<pre>curl -X POST http://localhost:3001/api/messages `
+  -H &#34;Content-Type: application/json&#34; `
+  -d &#39;{&#34;name&#34;:&#34;Sarah Johnson&#34;,&#34;message&#34;:&#34;This app is amazing! Really intuitive interface.&#34;,&#34;rating&#34;:5}&#39;
+</pre>
+<h2 is-upgraded>Expected Response</h2>
+<p>You should see:</p>
+<pre><code language="language-json" class="language-json">{
+  &#34;message&#34;: &#34;Message created successfully&#34;,
+  &#34;status&#34;: &#34;success&#34;,
+  &#34;data&#34;: {
+    &#34;message&#34;: {
+      &#34;id&#34;: &#34;550e8400-e29b-41d4-a716-446655440000&#34;,
+      &#34;name&#34;: &#34;Sarah Johnson&#34;,
+      &#34;message&#34;: &#34;This app is amazing! Really intuitive interface.&#34;,
+      &#34;rating&#34;: 5,
+      &#34;upvotes&#34;: 0,
+      &#34;downvotes&#34;: 0,
+      &#34;created_at&#34;: &#34;2024-01-15T10:30:45.123456+00:00&#34;
+    },
+    &#34;timestamp&#34;: &#34;2024-01-15T10:30:45.123Z&#34;
+  }
+}
+</code></pre>
+<h2 is-upgraded>Verify Data Was Saved</h2>
+<p>Test your GET route again:</p>
+<pre>curl http://localhost:3001/api/messages
+</pre>
+<p>You should now see your new message in the response!</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create POST /api/vote Route" duration="5">
+        <p>Now let&#39;s add the voting functionality so users can upvote or downvote feedback messages.</p>
+<h2 is-upgraded>Understanding the Voting System</h2>
+<p>Our voting system will:</p>
+<ul>
+<li>Accept a message ID and vote type (upvote/downvote)</li>
+<li>Update the vote count in the database</li>
+<li>Return the updated message</li>
+<li>Prevent invalid vote types or missing IDs</li>
+</ul>
+<h2 is-upgraded>Add Vote Validation Helper</h2>
+<p>Add this validation function with your other helpers:</p>
+<pre><code language="language-javascript" class="language-javascript">// Vote validation helper
+const validateVoteInput = (data) =&gt; {
+  const errors = [];
+
+  // Check required fields
+  if (!data.messageId) {
+    errors.push(&#34;Message ID is required&#34;);
+  }
+
+  if (!data.voteType) {
+    errors.push(&#34;Vote type is required&#34;);
+  }
+
+  // Validate vote type
+  if (data.voteType &amp;&amp; ![&#34;upvote&#34;, &#34;downvote&#34;].includes(data.voteType)) {
+    errors.push(&#39;Vote type must be either &#34;upvote&#34; or &#34;downvote&#34;&#39;);
+  }
+
+  return errors;
+};
+</code></pre>
+<h2 is-upgraded>Add the POST Vote Route</h2>
+<p>Add this route after your other API routes:</p>
+<pre><code language="language-javascript" class="language-javascript">// POST - Vote on a message
+app.post(&#34;/api/vote&#34;, async (req, res) =&gt; {
+  try {
+    // Extract data from request body
+    const { messageId, voteType } = req.body;
+
+    // Validate input data
+    const validationErrors = validateVoteInput({ messageId, voteType });
+    if (validationErrors.length &gt; 0) {
+      return res.status(400).json({
+        message: &#34;Validation failed&#34;,
+        status: &#34;error&#34;,
+        errors: validationErrors,
+      });
+    }
+
+    // First, get the current message to check if it exists
+    const { data: currentMessage, error: fetchError } = await supabase
+      .from(&#34;messages&#34;)
+      .select(&#34;*&#34;)
+      .eq(&#34;id&#34;, messageId)
+      .single(); // Get single record
+
+    if (fetchError || !currentMessage) {
+      return res.status(404).json({
+        message: &#34;Message not found&#34;,
+        status: &#34;error&#34;,
+        error: &#34;No message found with the provided ID&#34;,
+      });
+    }
+
+    // Prepare the update based on vote type
+    let updateData = {};
+    if (voteType === &#34;upvote&#34;) {
+      updateData.upvotes = currentMessage.upvotes + 1;
+    } else {
+      updateData.downvotes = currentMessage.downvotes + 1;
+    }
+
+    // Update the message in database
+    const { data, error } = await supabase
+      .from(&#34;messages&#34;)
+      .update(updateData)
+      .eq(&#34;id&#34;, messageId)
+      .select(); // Return updated data
+
+    // Handle database errors
+    if (error) {
+      console.error(&#34;Database error:&#34;, error);
+      return res.status(500).json({
+        message: &#34;Failed to update vote&#34;,
+        status: &#34;error&#34;,
+        error: error.message,
+      });
+    }
+
+    // Return successful response
+    res.json({
+      message: `${voteType} recorded successfully`,
+      status: &#34;success&#34;,
+      data: {
+        message: data[0], // Return updated message
+        voteType: voteType,
+        timestamp: new Date().toISOString(),
+      },
+    });
+  } catch (error) {
+    console.error(&#34;Server error:&#34;, error);
+    res.status(500).json({
+      message: &#34;Internal server error&#34;,
+      status: &#34;error&#34;,
+      error: error.message,
+    });
+  }
+});
+</code></pre>
+<h2 is-upgraded>Understanding the Vote Route</h2>
+<p><strong>Two-Step Process:</strong></p>
+<ol type="1">
+<li><strong>Check if message exists</strong> - Prevents voting on non-existent messages</li>
+<li><strong>Update the vote count</strong> - Increment upvotes or downvotes</li>
+</ol>
+<p><strong>Database Operations:</strong></p>
+<ul>
+<li><code>.eq('id', messageId)</code> - Find message by ID</li>
+<li><code>.single()</code> - Get exactly one record</li>
+<li><code>.update(updateData)</code> - Update specific fields</li>
+</ul>
+<p><strong>Error Handling:</strong></p>
+<ul>
+<li>Message not found (404 status)</li>
+<li>Database errors (500 status)</li>
+<li>Validation errors (400 status)</li>
+</ul>
+<aside class="special"><p><strong>Voting System Complete!</strong> Your API now supports full CRUD operations with proper validation and error handling. Users can create messages, view them, and vote on them!</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup React Frontend with Vite and TailwindCSS" duration="6">
+        <p>Time to build the user interface! We&#39;ll use Vite to create our React application and TailwindCSS for styling. Vite is a modern build tool that&#39;s much faster than traditional tools like Create React App (deprecated).</p>
+<h2 is-upgraded>Navigate to Frontend Directory</h2>
+<p>Make sure you&#39;re in your main project directory, then navigate to the frontend folder:</p>
+<pre>cd frontend
+</pre>
+<p>Your terminal should show you&#39;re in the frontend directory:</p>
+<pre>D:\Projects\mini-feedback-board\frontend&gt;
+</pre>
+<h2 is-upgraded>Create Vite Project</h2>
+<p>Run the Vite creation command:</p>
+<pre>npx create-vite@latest . --template react
+</pre>
+<h2 is-upgraded>Install Dependencies</h2>
+<p>Install all the React dependencies:</p>
+<pre>npm install
+</pre>
+<h2 is-upgraded>Install and Configure TailwindCSS</h2>
+<p>TailwindCSS is a utility-first CSS framework that makes styling fast and consistent. Instead of writing custom CSS, you use predefined classes.</p>
+<p><strong>Install TailwindCSS:</strong></p>
+<p>In your frontend directory, install TailwindCSS and its dependencies:</p>
+<pre>npm install tailwindcss @tailwindcss/vite
+</pre>
+<p><strong>Configure the Vite plugin:</strong></p>
+<p>Add the <code>@tailwindcss/vite</code> plugin to your Vite configuration <code>vite.config.js</code>:</p>
+<pre><code language="language-javascript" class="language-javascript">import { defineConfig } from &#34;vite&#34;;
+import tailwindcss from &#34;@tailwindcss/vite&#34;;
+
+export default defineConfig({
+  plugins: [tailwindcss()],
+});
+</code></pre>
+<p><strong>Add Tailwind to Your CSS:</strong></p>
+<p>Add an @import to your <code>src/index.css</code> CSS file that imports Tailwind CSS:</p>
+<pre><code language="language-css" class="language-css">@import &#34;tailwindcss&#34;;
+</code></pre>
+<h2 is-upgraded>Test the React App</h2>
+<p>Start the development server:</p>
+<pre>npm run dev
+</pre>
+<p><strong>Open your browser</strong> and go to <code>http://localhost:5173/</code></p>
+<p>You should see the default Vite + React welcome page with the Vite and React logos.</p>
+<aside class="special"><p><strong>React App Running!</strong> You now have a blazing-fast React development server running on port 5173 with TailwindCSS configured. Notice how quickly it started compared to other tools! That&#39;s the power of Vite.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create Basic Layout Structure" duration="6">
+        <p>Now let&#39;s create the basic layout for our feedback board: a header, a form to submit feedback, and a list to display feedback messages.</p>
+<h2 is-upgraded>Create Components Directory</h2>
+<p>First, let&#39;s organize our code properly:</p>
+<pre>mkdir src/components
+</pre>
+<h2 is-upgraded>Create Header Component</h2>
+<p>Create <code>src/components/Header.jsx</code>:</p>
+<pre><code language="language-jsx" class="language-jsx">function Header() {
+  return (
+    &lt;header className=&#34;bg-white shadow-sm border-b border-gray-200&#34;&gt;
+      &lt;div className=&#34;max-w-4xl mx-auto px-4 py-6&#34;&gt;
+        &lt;div className=&#34;text-center&#34;&gt;
+          &lt;h1 className=&#34;text-3xl font-bold text-gray-900 mb-2&#34;&gt;
+            Mini Feedback Board
+          &lt;/h1&gt;
+          &lt;p className=&#34;text-gray-600 text-lg&#34;&gt;
+            Share your thoughts and feedback with the community
+          &lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+  );
+}
+
+export default Header;
+</code></pre>
+<h2 is-upgraded>Create Footer Component</h2>
+<p>Create <code>src/components/Footer.jsx</code>:</p>
+<pre><code language="language-jsx" class="language-jsx">function Footer() {
+  return (
+    &lt;footer className=&#34;bg-white border-t border-gray-200 mt-12&#34;&gt;
+      &lt;div className=&#34;max-w-6xl mx-auto px-4 py-6&#34;&gt;
+        &lt;p className=&#34;text-center text-gray-600&#34;&gt;
+          Built with React, Vite, TailwindCSS, and Supabase
+        &lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/footer&gt;
+  );
+}
+
+export default Footer;
+</code></pre>
+<h2 is-upgraded>Create Feedback Form Component</h2>
+<p>Create <code>src/components/FeedbackForm.jsx</code>:</p>
+<pre><code language="language-jsx" class="language-jsx">import { useState } from &#34;react&#34;;
+
+function FeedbackForm() {
+  const [formData, setFormData] = useState({
+    name: &#34;&#34;,
+    message: &#34;&#34;,
+    rating: 5,
+  });
+
+  const handleInputChange = (e) =&gt; {
+    const { name, value } = e.target;
+    setFormData((prev) =&gt; ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) =&gt; {
+    e.preventDefault();
+    console.log(&#34;Form submitted:&#34;, formData);
+    // We&#39;ll connect this to our API later
+  };
+
+  return (
+    &lt;div className=&#34;max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6 mb-8&#34;&gt;
+      &lt;h2 className=&#34;text-2xl font-semibold text-gray-800 mb-6&#34;&gt;
+        Submit Your Feedback
+      &lt;/h2&gt;
+
+      &lt;form onSubmit={handleSubmit} className=&#34;space-y-4&#34;&gt;
+        {/* Name Input */}
+        &lt;div&gt;
+          &lt;label
+            htmlFor=&#34;name&#34;
+            className=&#34;block text-sm font-medium text-gray-700 mb-2&#34;
+          &gt;
+            Your Name
+          &lt;/label&gt;
+          &lt;input
+            type=&#34;text&#34;
+            id=&#34;name&#34;
+            name=&#34;name&#34;
+            value={formData.name}
+            onChange={handleInputChange}
+            className=&#34;w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent&#34;
+            placeholder=&#34;Enter your name...&#34;
+            required
+          /&gt;
+        &lt;/div&gt;
+
+        {/* Message Input */}
+        &lt;div&gt;
+          &lt;label
+            htmlFor=&#34;message&#34;
+            className=&#34;block text-sm font-medium text-gray-700 mb-2&#34;
+          &gt;
+            Your Feedback
+          &lt;/label&gt;
+          &lt;textarea
+            id=&#34;message&#34;
+            name=&#34;message&#34;
+            value={formData.message}
+            onChange={handleInputChange}
+            rows={4}
+            className=&#34;w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none&#34;
+            placeholder=&#34;Share your thoughts, suggestions, or feedback...&#34;
+            required
+          /&gt;
+        &lt;/div&gt;
+
+        {/* Rating Input */}
+        &lt;div&gt;
+          &lt;label
+            htmlFor=&#34;rating&#34;
+            className=&#34;block text-sm font-medium text-gray-700 mb-2&#34;
+          &gt;
+            Rating
+          &lt;/label&gt;
+          &lt;select
+            id=&#34;rating&#34;
+            name=&#34;rating&#34;
+            value={formData.rating}
+            onChange={handleInputChange}
+            className=&#34;w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent&#34;
+          &gt;
+            &lt;option value={5}&gt;⭐⭐⭐⭐⭐ (5 stars)&lt;/option&gt;
+            &lt;option value={4}&gt;⭐⭐⭐⭐ (4 stars)&lt;/option&gt;
+            &lt;option value={3}&gt;⭐⭐⭐ (3 stars)&lt;/option&gt;
+            &lt;option value={2}&gt;⭐⭐ (2 stars)&lt;/option&gt;
+            &lt;option value={1}&gt;⭐ (1 star)&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+
+        {/* Submit Button */}
+        &lt;div&gt;
+          &lt;button type=&#34;submit&#34; className=&#34;w-full btn-primary&#34;&gt;
+            Submit Feedback
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default FeedbackForm;
+</code></pre>
+<h2 is-upgraded>Create Feedback List Component</h2>
+<p>Create <code>src/components/FeedbackList.jsx</code>:</p>
+<pre><code language="language-jsx" class="language-jsx">import { useState } from &#34;react&#34;;
+
+function FeedbackList() {
+  // Sample data for now - we&#39;ll replace this with API data later
+  const [messages] = useState([
+    {
+      id: &#34;1&#34;,
+      name: &#34;Sarah Johnson&#34;,
+      message:
+        &#34;This app is amazing! Really intuitive interface and great user experience.&#34;,
+      rating: 5,
+      upvotes: 12,
+      downvotes: 2,
+      created_at: &#34;2024-01-15T10:30:00Z&#34;,
+    },
+    {
+      id: &#34;2&#34;,
+      name: &#34;Alex Chen&#34;,
+      message:
+        &#34;Love the clean design and fast performance. Could use more features though.&#34;,
+      rating: 4,
+      upvotes: 8,
+      downvotes: 1,
+      created_at: &#34;2024-01-15T09:15:00Z&#34;,
+    },
+    {
+      id: &#34;3&#34;,
+      name: &#34;Maria Garcia&#34;,
+      message:
+        &#34;Good start but needs more customization options. Keep up the good work!&#34;,
+      rating: 3,
+      upvotes: 5,
+      downvotes: 3,
+      created_at: &#34;2024-01-15T08:45:00Z&#34;,
+    },
+  ]);
+
+  const handleVote = (messageId, voteType) =&gt; {
+    console.log(`${voteType} on message ${messageId}`);
+    // We&#39;ll connect this to our API later
+  };
+
+  const formatDate = (dateString) =&gt; {
+    return new Date(dateString).toLocaleDateString(&#34;en-US&#34;, {
+      year: &#34;numeric&#34;,
+      month: &#34;short&#34;,
+      day: &#34;numeric&#34;,
+      hour: &#34;2-digit&#34;,
+      minute: &#34;2-digit&#34;,
+    });
+  };
+
+  const renderStars = (rating) =&gt; {
+    return &#34;⭐&#34;.repeat(rating) + &#34;☆&#34;.repeat(5 - rating);
+  };
+
+  return (
+    &lt;div className=&#34;max-w-4xl mx-auto&#34;&gt;
+      &lt;h2 className=&#34;text-2xl font-semibold text-gray-800 mb-6&#34;&gt;
+        Community Feedback ({messages.length})
+      &lt;/h2&gt;
+
+      &lt;div className=&#34;space-y-4&#34;&gt;
+        {messages.map((message) =&gt; (
+          &lt;div key={message.id} className=&#34;bg-white rounded-lg shadow-md p-6&#34;&gt;
+            {/* Header with name, rating, and date */}
+            &lt;div className=&#34;flex items-center justify-between mb-4&#34;&gt;
+              &lt;div className=&#34;flex items-center space-x-3&#34;&gt;
+                &lt;div className=&#34;w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold&#34;&gt;
+                  {message.name.charAt(0).toUpperCase()}
+                &lt;/div&gt;
+                &lt;div&gt;
+                  &lt;h3 className=&#34;font-semibold text-gray-900&#34;&gt;
+                    {message.name}
+                  &lt;/h3&gt;
+                  &lt;p className=&#34;text-sm text-gray-500&#34;&gt;
+                    {formatDate(message.created_at)}
+                  &lt;/p&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div className=&#34;text-right&#34;&gt;
+                &lt;div className=&#34;text-lg&#34;&gt;{renderStars(message.rating)}&lt;/div&gt;
+                &lt;p className=&#34;text-sm text-gray-500&#34;&gt;{message.rating}/5&lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            {/* Message content */}
+            &lt;p className=&#34;text-gray-700 mb-4&#34;&gt;{message.message}&lt;/p&gt;
+
+            {/* Voting buttons */}
+            &lt;div className=&#34;flex items-center space-x-4&#34;&gt;
+              &lt;button
+                onClick={() =&gt; handleVote(message.id, &#34;upvote&#34;)}
+                className=&#34;flex items-center space-x-2 px-3 py-2 text-green-600 hover:bg-green-50 rounded-md transition-colors&#34;
+              &gt;
+                &lt;span className=&#34;text-lg&#34;&gt;👍&lt;/span&gt;
+                &lt;span className=&#34;font-medium&#34;&gt;{message.upvotes}&lt;/span&gt;
+              &lt;/button&gt;
+
+              &lt;button
+                onClick={() =&gt; handleVote(message.id, &#34;downvote&#34;)}
+                className=&#34;flex items-center space-x-2 px-3 py-2 text-red-600 hover:bg-red-50 rounded-md transition-colors&#34;
+              &gt;
+                &lt;span className=&#34;text-lg&#34;&gt;👎&lt;/span&gt;
+                &lt;span className=&#34;font-medium&#34;&gt;{message.downvotes}&lt;/span&gt;
+              &lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default FeedbackList;
+</code></pre>
+<h2 is-upgraded>Update Main App Component</h2>
+<p>Update your <code>src/App.jsx</code> to use all the components:</p>
+<pre><code language="language-jsx" class="language-jsx">import Header from &#34;./components/Header&#34;;
+import FeedbackForm from &#34;./components/FeedbackForm&#34;;
+import FeedbackList from &#34;./components/FeedbackList&#34;;
+import Footer from &#34;./components/Footer&#34;;
+
+function App() {
+  return (
+    &lt;div className=&#34;min-h-screen bg-gray-50&#34;&gt;
+      &lt;Header /&gt;
+
+      &lt;main className=&#34;max-w-6xl mx-auto px-4 py-8&#34;&gt;
+        &lt;FeedbackForm /&gt;
+        &lt;FeedbackList /&gt;
+      &lt;/main&gt;
+
+      &lt;Footer /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre>
+<h2 is-upgraded>Clean Up Default Styles</h2>
+<p>Remove the default Vite styles by emptying <code>src/App.css</code>:</p>
+<pre><code language="language-css" class="language-css">/* This file is now empty - we&#39;re using TailwindCSS instead */
+</code></pre>
+<h2 is-upgraded>Run Development Server</h2>
+<p>Make sure your frontend development server is still running:</p>
+<pre>npm run dev
+</pre>
+<h2 is-upgraded>Test the User Interface</h2>
+<p><strong>Open your browser</strong> and go to <code>http://localhost:5173/</code></p>
+<h2 is-upgraded>Your Project Structure</h2>
+<p>Your frontend folder should now look like:</p>
+<pre><code>frontend/
+├── public/
+│   └── vite.svg
+├── src/
+│   ├── components/
+│   │   ├── Header.jsx
+│   │   ├── FeedbackForm.jsx
+│   │   └── FeedbackList.jsx
+│   ├── assets/
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+├── index.html
+├── package.json
+├── postcss.config.js
+├── tailwind.config.js
+└── vite.config.js
+</code></pre>
+<aside class="special"><p><strong>Frontend Complete!</strong> Your React application has a beautiful, functional user interface with proper component structure, responsive design, and interactive elements.</p>
+</aside>
+<aside class="warning"><p><strong>Two Servers Running:</strong> You should now have <strong>TWO</strong> development servers running - your backend API (port 3001) and frontend React app (port 5173). This is normal for fullstack development!</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Fetch Messages from Backend API" duration="7">
+        <p>Now it&#39;s time for the magic moment - connecting your beautiful React frontend to your powerful backend API! We&#39;ll replace the sample data with real data from your database.</p>
+<h2 is-upgraded>Understanding Frontend-Backend Communication</h2>
+<p>Your architecture now looks like this:</p>
+<pre><code>React Frontend (Port 5173) ←→ Express Backend (Port 3001) ←→ Supabase Database
+     User Interface                    API Endpoints              Data Storage
+</code></pre>
+<p><strong>How it works:</strong></p>
+<ol type="1">
+<li>React makes HTTP requests to your API</li>
+<li>Express processes the requests and queries Supabase</li>
+<li>Supabase returns data to Express</li>
+<li>Express sends JSON response back to React</li>
+<li>React updates the UI with the new data</li>
+</ol>
+<h2 is-upgraded>Create API Utilities</h2>
+<p>First, let&#39;s create a utility file for all our API calls. Create <code>src/utils/api.js</code>:</p>
+<pre><code language="language-javascript" class="language-javascript">// API base URL - your backend server
+const API_BASE_URL = &#34;http://localhost:3001/api&#34;;
+
+// Utility function to handle API requests
+const apiRequest = async (endpoint, options = {}) =&gt; {
+  const url = `${API_BASE_URL}${endpoint}`;
+
+  const config = {
+    headers: {
+      &#34;Content-Type&#34;: &#34;application/json&#34;,
+      ...options.headers,
+    },
+    ...options,
+  };
+
+  try {
+    const response = await fetch(url, config);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || &#34;An error occurred&#34;);
+    }
+
+    return data;
+  } catch (error) {
+    console.error(&#34;API request failed:&#34;, error);
+    throw error;
+  }
+};
+
+// API functions
+export const api = {
+  // Get all messages
+  getMessages: async () =&gt; {
+    return apiRequest(&#34;/messages&#34;);
+  },
+
+  // Create a new message
+  createMessage: async (messageData) =&gt; {
+    return apiRequest(&#34;/messages&#34;, {
+      method: &#34;POST&#34;,
+      body: JSON.stringify(messageData),
+    });
+  },
+
+  // Vote on a message
+  vote: async (messageId, voteType) =&gt; {
+    return apiRequest(&#34;/vote&#34;, {
+      method: &#34;POST&#34;,
+      body: JSON.stringify({ messageId, voteType }),
+    });
+  },
+};
+</code></pre>
+<h2 is-upgraded>Update FeedbackList Component</h2>
+<p>Now let&#39;s update the <code>FeedbackList</code> component to fetch real data. Replace the content of <code>src/components/FeedbackList.jsx</code>:</p>
+<pre><code language="language-jsx" class="language-jsx">import { useState, useEffect } from &#34;react&#34;;
+import { api } from &#34;../utils/api&#34;;
+
+function FeedbackList({ refreshTrigger }) {
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch messages from API
+  const fetchMessages = async () =&gt; {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await api.getMessages();
+      setMessages(response.data.messages);
+    } catch (err) {
+      setError(&#34;Failed to load messages. Please try again.&#34;);
+      console.error(&#34;Error fetching messages:&#34;, err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch messages on component mount and when refreshTrigger changes
+  useEffect(() =&gt; {
+    fetchMessages();
+  }, [refreshTrigger]);
+
+  const handleVote = async (messageId, voteType) =&gt; {
+    try {
+      // Optimistically update UI
+      setMessages((prevMessages) =&gt;
+        prevMessages.map((msg) =&gt;
+          msg.id === messageId
+            ? {
+                ...msg,
+                [voteType === &#34;upvote&#34; ? &#34;upvotes&#34; : &#34;downvotes&#34;]:
+                  msg[voteType === &#34;upvote&#34; ? &#34;upvotes&#34; : &#34;downvotes&#34;] + 1,
+              }
+            : msg
+        )
+      );
+
+      // Make API call
+      await api.vote(messageId, voteType);
+
+      // Show subtle success feedback
+      const button = document.querySelector(
+        `[data-vote=&#34;${messageId}-${voteType}&#34;]`
+      );
+      if (button) {
+        button.style.transform = &#34;scale(1.1)&#34;;
+        setTimeout(() =&gt; {
+          button.style.transform = &#34;scale(1)&#34;;
+        }, 200);
+      }
+
+      // Refresh data to get accurate counts
+      setTimeout(() =&gt; fetchMessages(), 500);
+    } catch (err) {
+      console.error(&#34;Error voting:&#34;, err);
+      // Revert optimistic update on error
+      fetchMessages();
+
+      // Show error message
+      const errorDiv = document.createElement(&#34;div&#34;);
+      errorDiv.className =
+        &#34;fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-md z-50&#34;;
+      errorDiv.textContent = &#34;Failed to record vote. Please try again.&#34;;
+      document.body.appendChild(errorDiv);
+
+      setTimeout(() =&gt; {
+        if (errorDiv.parentNode) {
+          errorDiv.parentNode.removeChild(errorDiv);
+        }
+      }, 3000);
+    }
+  };
+
+  const formatDate = (dateString) =&gt; {
+    return new Date(dateString).toLocaleDateString(&#34;en-US&#34;, {
+      year: &#34;numeric&#34;,
+      month: &#34;short&#34;,
+      day: &#34;numeric&#34;,
+      hour: &#34;2-digit&#34;,
+      minute: &#34;2-digit&#34;,
+    });
+  };
+
+  const renderStars = (rating) =&gt; {
+    return &#34;⭐&#34;.repeat(rating) + &#34;☆&#34;.repeat(5 - rating);
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      &lt;div className=&#34;max-w-4xl mx-auto&#34;&gt;
+        &lt;h2 className=&#34;text-2xl font-semibold text-gray-800 mb-6&#34;&gt;
+          Community Feedback
+        &lt;/h2&gt;
+        &lt;div className=&#34;flex justify-center items-center py-12&#34;&gt;
+          &lt;div className=&#34;animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500&#34;&gt;&lt;/div&gt;
+          &lt;span className=&#34;ml-4 text-gray-600&#34;&gt;Loading messages...&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      &lt;div className=&#34;max-w-4xl mx-auto&#34;&gt;
+        &lt;h2 className=&#34;text-2xl font-semibold text-gray-800 mb-6&#34;&gt;
+          Community Feedback
+        &lt;/h2&gt;
+        &lt;div className=&#34;bg-red-50 border border-red-200 rounded-md p-4&#34;&gt;
+          &lt;div className=&#34;text-red-800 font-medium&#34;&gt;Error loading messages&lt;/div&gt;
+          &lt;div className=&#34;text-red-600 text-sm mt-1&#34;&gt;{error}&lt;/div&gt;
+          &lt;button onClick={fetchMessages} className=&#34;mt-3 btn-primary&#34;&gt;
+            Try Again
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  // Empty state
+  if (messages.length === 0) {
+    return (
+      &lt;div className=&#34;max-w-4xl mx-auto&#34;&gt;
+        &lt;h2 className=&#34;text-2xl font-semibold text-gray-800 mb-6&#34;&gt;
+          Community Feedback (0)
+        &lt;/h2&gt;
+        &lt;div className=&#34;text-center py-12 bg-white rounded-lg shadow-md&#34;&gt;
+          &lt;div className=&#34;text-6xl mb-4&#34;&gt;💬&lt;/div&gt;
+          &lt;h3 className=&#34;text-xl font-semibold text-gray-800 mb-2&#34;&gt;
+            No feedback yet
+          &lt;/h3&gt;
+          &lt;p className=&#34;text-gray-600&#34;&gt;Be the first to share your thoughts!&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  // Messages list
+  return (
+    &lt;div className=&#34;max-w-4xl mx-auto&#34;&gt;
+      &lt;h2 className=&#34;text-2xl font-semibold text-gray-800 mb-6&#34;&gt;
+        Community Feedback ({messages.length})
+      &lt;/h2&gt;
+
+      &lt;div className=&#34;space-y-4&#34;&gt;
+        {messages.map((message) =&gt; (
+          &lt;div key={message.id} className=&#34;bg-white rounded-lg shadow-md p-6&#34;&gt;
+            {/* Header with name, rating, and date */}
+            &lt;div className=&#34;flex items-center justify-between mb-4&#34;&gt;
+              &lt;div className=&#34;flex items-center space-x-3&#34;&gt;
+                &lt;div className=&#34;w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold&#34;&gt;
+                  {message.name.charAt(0).toUpperCase()}
+                &lt;/div&gt;
+                &lt;div&gt;
+                  &lt;h3 className=&#34;font-semibold text-gray-900&#34;&gt;
+                    {message.name}
+                  &lt;/h3&gt;
+                  &lt;p className=&#34;text-sm text-gray-500&#34;&gt;
+                    {formatDate(message.created_at)}
+                  &lt;/p&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div className=&#34;text-right&#34;&gt;
+                &lt;div className=&#34;text-lg&#34;&gt;{renderStars(message.rating)}&lt;/div&gt;
+                &lt;p className=&#34;text-sm text-gray-500&#34;&gt;{message.rating}/5&lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            {/* Message content */}
+            &lt;p className=&#34;text-gray-700 mb-4&#34;&gt;{message.message}&lt;/p&gt;
+            {/* Voting buttons */}
+            &lt;div className=&#34;flex items-center space-x-4&#34;&gt;
+              &lt;button
+                data-vote={`${message.id}-upvote`}
+                onClick={() =&gt; handleVote(message.id, &#34;upvote&#34;)}
+                className=&#34;flex items-center space-x-2 px-3 py-2 text-green-600 hover:bg-green-50 rounded-md transition-all duration-200&#34;
+              &gt;
+                &lt;span className=&#34;text-lg&#34;&gt;👍&lt;/span&gt;
+                &lt;span className=&#34;font-medium&#34;&gt;{message.upvotes}&lt;/span&gt;
+              &lt;/button&gt;
+
+              &lt;button
+                data-vote={`${message.id}-downvote`}
+                onClick={() =&gt; handleVote(message.id, &#34;downvote&#34;)}
+                className=&#34;flex items-center space-x-2 px-3 py-2 text-red-600 hover:bg-red-50 rounded-md transition-all duration-200&#34;
+              &gt;
+                &lt;span className=&#34;text-lg&#34;&gt;👎&lt;/span&gt;
+                &lt;span className=&#34;font-medium&#34;&gt;{message.downvotes}&lt;/span&gt;
+              &lt;/button&gt;
+            &lt;/div&gt;;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default FeedbackList;
+</code></pre>
+<h2 is-upgraded>Test Real Data Fetching</h2>
+<ol type="1">
+<li><strong>Make sure your backend server is running</strong> in the backend directory:<pre>npm run dev
+</pre>
+</li>
+<li><strong>Make sure your frontend is running</strong> in the frontend directory:<pre>npm run dev
+</pre>
+</li>
+<li><strong>Open your browser</strong> to <code>http://localhost:5173/</code></li>
+</ol>
+<p>You should now see:</p>
+<ul>
+<li>A loading spinner initially</li>
+<li>Real messages from your database (if any exist)</li>
+<li>Or an empty state if no messages exist yet</li>
+</ul>
+<h2 is-upgraded>Verify the API Connection</h2>
+<p>Check your browser&#39;s Developer Tools (F12) → Network tab:</p>
+<ul>
+<li>You should see a request to <code>http://localhost:3001/api/messages</code></li>
+<li>The response should show your actual database data</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Implement Form Submission" duration="8">
+        <p>Now let&#39;s connect the feedback form to actually create new messages in your database.</p>
+<h2 is-upgraded>Update FeedbackForm Component</h2>
+<p>Replace the content of <code>src/components/FeedbackForm.jsx</code>:</p>
+<pre><code language="language-jsx" class="language-jsx">import { useState } from &#34;react&#34;;
+import { api } from &#34;../utils/api&#34;;
+
+function FeedbackForm({ onSubmitSuccess }) {
+  const [formData, setFormData] = useState({
+    name: &#34;&#34;,
+    message: &#34;&#34;,
+    rating: 5,
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState(&#34;&#34;);
+
+  const handleInputChange = (e) =&gt; {
+    const { name, value } = e.target;
+    setFormData((prev) =&gt; ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors((prev) =&gt; ({
+        ...prev,
+        [name]: &#34;&#34;,
+      }));
+    }
+  };
+
+  const validateForm = () =&gt; {
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = &#34;Name is required&#34;;
+    } else if (formData.name.length &gt; 100) {
+      newErrors.name = &#34;Name must be less than 100 characters&#34;;
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = &#34;Message is required&#34;;
+    } else if (formData.message.length &gt; 1000) {
+      newErrors.message = &#34;Message must be less than 1000 characters&#34;;
+    }
+
+    if (formData.rating &lt; 1 || formData.rating &gt; 5) {
+      newErrors.rating = &#34;Rating must be between 1 and 5&#34;;
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = async (e) =&gt; {
+    e.preventDefault();
+    setSuccessMessage(&#34;&#34;);
+
+    // Validate form
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length &gt; 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrors({});
+
+    try {
+      // Submit to API
+      await api.createMessage({
+        name: formData.name.trim(),
+        message: formData.message.trim(),
+        rating: parseInt(formData.rating),
+      });
+
+      // Success! Clear form and show message
+      setFormData({
+        name: &#34;&#34;,
+        message: &#34;&#34;,
+        rating: 5,
+      });
+      setSuccessMessage(
+        &#34;Thank you! Your feedback has been submitted successfully.&#34;
+      );
+
+      // Notify parent component to refresh the list
+      if (onSubmitSuccess) {
+        onSubmitSuccess();
+      }
+
+      // Clear success message after 5 seconds
+      setTimeout(() =&gt; setSuccessMessage(&#34;&#34;), 5000);
+    } catch (err) {
+      console.error(&#34;Error submitting feedback:&#34;, err);
+      setErrors({
+        submit: &#34;Failed to submit feedback. Please try again.&#34;,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    &lt;div className=&#34;max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6 mb-8&#34;&gt;
+      &lt;h2 className=&#34;text-2xl font-semibold text-gray-800 mb-6&#34;&gt;
+        Submit Your Feedback
+      &lt;/h2&gt;
+
+      {/* Success Message */}
+      {successMessage &amp;&amp; (
+        &lt;div className=&#34;mb-6 bg-green-50 border border-green-200 rounded-md p-4&#34;&gt;
+          &lt;div className=&#34;flex items-center&#34;&gt;
+            &lt;span className=&#34;text-green-500 text-xl mr-3&#34;&gt;✅&lt;/span&gt;
+            &lt;span className=&#34;text-green-800 font-medium&#34;&gt;{successMessage}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      )}
+
+      {/* Submit Error */}
+      {errors.submit &amp;&amp; (
+        &lt;div className=&#34;mb-6 bg-red-50 border border-red-200 rounded-md p-4&#34;&gt;
+          &lt;div className=&#34;flex items-center&#34;&gt;
+            &lt;span className=&#34;text-red-500 text-xl mr-3&#34;&gt;❌&lt;/span&gt;
+            &lt;span className=&#34;text-red-800 font-medium&#34;&gt;{errors.submit}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      )}
+
+      &lt;form onSubmit={handleSubmit} className=&#34;space-y-4&#34;&gt;
+        {/* Name Input */}
+        &lt;div&gt;
+          &lt;label
+            htmlFor=&#34;name&#34;
+            className=&#34;block text-sm font-medium text-gray-700 mb-2&#34;
+          &gt;
+            Your Name *
+          &lt;/label&gt;
+          &lt;input
+            type=&#34;text&#34;
+            id=&#34;name&#34;
+            name=&#34;name&#34;
+            value={formData.name}
+            onChange={handleInputChange}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+              errors.name ? &#34;border-red-300&#34; : &#34;border-gray-300&#34;
+            }`}
+            placeholder=&#34;Enter your name...&#34;
+            disabled={isSubmitting}
+          /&gt;
+          {errors.name &amp;&amp; (
+            &lt;p className=&#34;mt-1 text-sm text-red-600&#34;&gt;{errors.name}&lt;/p&gt;
+          )}
+        &lt;/div&gt;
+
+        {/* Message Input */}
+        &lt;div&gt;
+          &lt;label
+            htmlFor=&#34;message&#34;
+            className=&#34;block text-sm font-medium text-gray-700 mb-2&#34;
+          &gt;
+            Your Feedback *
+          &lt;/label&gt;
+          &lt;textarea
+            id=&#34;message&#34;
+            name=&#34;message&#34;
+            value={formData.message}
+            onChange={handleInputChange}
+            rows={4}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none ${
+              errors.message ? &#34;border-red-300&#34; : &#34;border-gray-300&#34;
+            }`}
+            placeholder=&#34;Share your thoughts, suggestions, or feedback...&#34;
+            disabled={isSubmitting}
+          /&gt;
+          {errors.message &amp;&amp; (
+            &lt;p className=&#34;mt-1 text-sm text-red-600&#34;&gt;{errors.message}&lt;/p&gt;
+          )}
+          &lt;p className=&#34;mt-1 text-sm text-gray-500&#34;&gt;
+            {formData.message.length}/1000 characters
+          &lt;/p&gt;
+        &lt;/div&gt;
+
+        {/* Rating Input */}
+        &lt;div&gt;
+          &lt;label
+            htmlFor=&#34;rating&#34;
+            className=&#34;block text-sm font-medium text-gray-700 mb-2&#34;
+          &gt;
+            Rating
+          &lt;/label&gt;
+          &lt;select
+            id=&#34;rating&#34;
+            name=&#34;rating&#34;
+            value={formData.rating}
+            onChange={handleInputChange}
+            className=&#34;w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent&#34;
+            disabled={isSubmitting}
+          &gt;
+            &lt;option value={5}&gt;⭐⭐⭐⭐⭐ (5 stars)&lt;/option&gt;
+            &lt;option value={4}&gt;⭐⭐⭐⭐ (4 stars)&lt;/option&gt;
+            &lt;option value={3}&gt;⭐⭐⭐ (3 stars)&lt;/option&gt;
+            &lt;option value={2}&gt;⭐⭐ (2 stars)&lt;/option&gt;
+            &lt;option value={1}&gt;⭐ (1 star)&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+
+        {/* Submit Button */}
+        &lt;div&gt;
+          &lt;button
+            type=&#34;submit&#34;
+            disabled={isSubmitting}
+            className=&#34;w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed&#34;
+          &gt;
+            {isSubmitting ? (
+              &lt;span className=&#34;flex items-center justify-center&#34;&gt;
+                &lt;svg
+                  className=&#34;animate-spin -ml-1 mr-3 h-5 w-5 text-white&#34;
+                  xmlns=&#34;http://www.w3.org/2000/svg&#34;
+                  fill=&#34;none&#34;
+                  viewBox=&#34;0 0 24 24&#34;
+                &gt;
+                  &lt;circle
+                    className=&#34;opacity-25&#34;
+                    cx=&#34;12&#34;
+                    cy=&#34;12&#34;
+                    r=&#34;10&#34;
+                    stroke=&#34;currentColor&#34;
+                    strokeWidth=&#34;4&#34;
+                  &gt;&lt;/circle&gt;
+                  &lt;path
+                    className=&#34;opacity-75&#34;
+                    fill=&#34;currentColor&#34;
+                    d=&#34;m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z&#34;
+                  &gt;&lt;/path&gt;
+                &lt;/svg&gt;
+                Submitting...
+              &lt;/span&gt;
+            ) : (
+              &#34;Submit Feedback&#34;
+            )}
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default FeedbackForm;
+</code></pre>
+<h2 is-upgraded>Update Main App Component</h2>
+<p>Update <code>src/App.jsx</code> to handle form submission success:</p>
+<pre><code language="language-jsx" class="language-jsx">import { useState } from &#34;react&#34;;
+import Header from &#34;./components/Header&#34;;
+import FeedbackForm from &#34;./components/FeedbackForm&#34;;
+import FeedbackList from &#34;./components/FeedbackList&#34;;
+
+function App() {
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const handleFormSubmitSuccess = () =&gt; {
+    // Trigger refresh of the feedback list
+    setRefreshTrigger((prev) =&gt; prev + 1);
+  };
+
+  return (
+    &lt;div className=&#34;min-h-screen bg-gray-50&#34;&gt;
+      &lt;Header /&gt;
+
+      &lt;main className=&#34;max-w-6xl mx-auto px-4 py-8&#34;&gt;
+        &lt;FeedbackForm onSubmitSuccess={handleFormSubmitSuccess} /&gt;
+        &lt;FeedbackList refreshTrigger={refreshTrigger} /&gt;
+      &lt;/main&gt;
+
+      &lt;footer className=&#34;bg-white border-t border-gray-200 mt-12&#34;&gt;
+        &lt;div className=&#34;max-w-6xl mx-auto px-4 py-6&#34;&gt;
+          &lt;p className=&#34;text-center text-gray-600&#34;&gt;
+            Built with React, Vite, TailwindCSS, and Supabase
+          &lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/footer&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prepare for Deployment" duration="5">
+        <p>Time to make your application live on the internet! We&#39;ll deploy both your backend API and frontend to Vercel, a modern deployment platform that&#39;s perfect for fullstack applications.</p>
+<h2 is-upgraded>Understanding Deployment Architecture</h2>
+<p>When we deploy to production, our architecture changes:</p>
+<pre><code>DEVELOPMENT (Local)                    PRODUCTION (Live)
+Frontend: localhost:5173        →      Frontend: your-app.vercel.app
+Backend:  localhost:3001        →      Backend:  your-api.vercel.app
+Database: Supabase (same)      →      Database: Supabase (same)
+</code></pre>
+<h2 is-upgraded>Why Vercel?</h2>
+<p>Vercel is perfect for our project because it:</p>
+<ul>
+<li><strong>Supports fullstack apps</strong> - Can deploy both React frontend and Node.js backend</li>
+<li><strong>Git integration</strong> - Automatic deployments from GitHub</li>
+<li><strong>Environment variables</strong> - Secure API key management</li>
+<li><strong>Global CDN</strong> - Fast loading worldwide</li>
+<li><strong>Free tier</strong> - Perfect for learning projects</li>
+<li><strong>Easy setup</strong> - Deploy with a few clicks</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy Backend to Vercel" duration="8">
+        <p>Let&#39;s deploy your Express.js backend API to Vercel first.</p>
+<h2 is-upgraded>Create GitHub Repository</h2>
+<ol type="1">
+<li><strong>Go to GitHub</strong> and create a new repository:<ul>
+<li>Repository name: <code>mini-feedback-board</code></li>
+<li>Description: <code>A fullstack feedback board built with React, Express, and Supabase</code></li>
+<li>Make it <strong>Public</strong> (required for free Vercel deployments)</li>
+</ul>
+</li>
+<li><strong>Initialize Git in your main project directory</strong> (if you haven&#39;t already):<pre>git init
+git add .
+git commit -m &#34;Initial commit - Mini Feedback Board&#34;
+</pre>
+</li>
+<li><strong>Connect to GitHub repository</strong>:<pre>git remote add origin https://github.com/YOUR-USERNAME/mini-feedback-board.git
+git branch -M main
+git push -u origin main
+</pre>
+Replace <code>YOUR-USERNAME</code> with your actual GitHub username.</li>
+</ol>
+<h2 is-upgraded>Create Vercel Account</h2>
+<ol type="1">
+<li><strong>Go to Vercel</strong>: <code>https://vercel.com</code></li>
+<li><strong>Sign up with GitHub</strong> - this makes deployment much easier</li>
+<li><strong>Authorize Vercel</strong> to access your GitHub repositories</li>
+</ol>
+<h2 is-upgraded>Deploy Backend</h2>
+<ol type="1">
+<li><strong>Click &#34;New Project&#34;</strong> in your Vercel dashboard</li>
+<li><strong>Import from GitHub</strong> - find your <code>mini-feedback-board</code> repository</li>
+<li><strong>Configure Project</strong>:<ul>
+<li><strong>Framework Preset</strong>: Other</li>
+<li><strong>Root Directory</strong>: <code>backend</code></li>
+<li><strong>Build Command</strong>: (leave empty)</li>
+<li><strong>Output Directory</strong>: (leave empty)</li>
+<li><strong>Install Command</strong>: <code>npm install</code></li>
+</ul>
+</li>
+<li><strong>Add Environment Variables</strong> (very important!): Click &#34;Environment Variables&#34; and add:<ul>
+<li><code>SUPABASE_URL</code>: Your Supabase project URL</li>
+<li><code>SUPABASE_ANON_KEY</code>: Your Supabase anon key</li>
+</ul>
+Copy these values from your <code>backend/.env</code> file.</li>
+<li><strong>Click &#34;Deploy&#34;</strong></li>
+<li><strong>Wait for deployment</strong> - should take 1-2 minutes</li>
+</ol>
+<h2 is-upgraded>Test Your Deployed Backend</h2>
+<p>Once deployment is complete, Vercel will give you a URL like: <code>https://mini-feedback-board-backend-xyz.vercel.app</code></p>
+<p>Test your API endpoints:</p>
+<p><strong>Test the hello endpoint:</strong></p>
+<pre>curl https://your-backend-url.vercel.app/api/hello
+</pre>
+<p><strong>Test the messages endpoint:</strong></p>
+<pre>curl https://your-backend-url.vercel.app/api/messages
+</pre>
+<p>You should get the same JSON responses as your local backend.</p>
+<aside class="special"><p><strong>Backend Deployed Successfully!</strong> Your API is now live on the internet and accessible from anywhere. Your database operations work in production!</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy Frontend to Vercel" duration="7">
+        <p>Now let&#39;s deploy your React frontend and connect it to your live backend.</p>
+<h2 is-upgraded>Update Frontend API Configuration</h2>
+<p>First, we need to update the frontend to use your production backend URL.</p>
+<p>Update <code>src/utils/api.js</code>:</p>
+<pre><code language="language-javascript" class="language-javascript">// API base URL - detect environment
+const API_BASE_URL = &#34;https://your-backend-url.vercel.app/api&#34;; // Replace with your actual backend URL
+</code></pre>
+<p>Replace <code>https://your-backend-url.vercel.app</code> with your actual backend URL from the previous step.</p>
+<h2 is-upgraded>Deploy Frontend to Vercel</h2>
+<ol type="1">
+<li><strong>Go back to Vercel</strong> and click &#34;New Project&#34;</li>
+<li><strong>Import the same GitHub repository</strong> (mini-feedback-board)</li>
+<li><strong>Configure Project</strong>:<ul>
+<li><strong>Framework Preset</strong>: Vite</li>
+<li><strong>Root Directory</strong>: <code>frontend</code></li>
+<li><strong>Build Command</strong>: <code>npm run build</code></li>
+<li><strong>Output Directory</strong>: <code>dist</code></li>
+<li><strong>Install Command</strong>: <code>npm install</code></li>
+</ul>
+</li>
+<li><strong>Click &#34;Deploy&#34;</strong></li>
+<li><strong>Wait for deployment</strong> - should take 2-3 minutes</li>
+</ol>
+<h2 is-upgraded>Test Your Live Application</h2>
+<p>Once deployed, you&#39;ll get a URL like: <code>https://mini-feedback-board-frontend-xyz.vercel.app</code></p>
+<p><strong>Test your live application:</strong></p>
+<ol type="1">
+<li><strong>Open the URL in your browser</strong></li>
+<li><strong>Submit a new feedback message</strong></li>
+<li><strong>Vote on messages</strong></li>
+<li><strong>Refresh the page</strong> to confirm data persists</li>
+<li><strong>Try the app on your mobile device</strong></li>
+</ol>
+<aside class="special"><p><strong>Frontend Deployed Successfully!</strong> Your complete fullstack application is now live on the internet with a secure CORS configuration!</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+
+<!-- copy-button-script-injected -->
+<script>
+(function () {
+  function addCopyButtons() {
+    document.querySelectorAll('pre').forEach(code => {
+      if (code.dataset.copyButtonAdded) return;
+      code.dataset.copyButtonAdded = "true";
+
+      // Make code element position relative (but don't touch font/style)
+      code.style.position = code.style.position || 'relative';
+
+      const btn = document.createElement('button');
+      btn.textContent = '📋';
+      btn.style.position = 'absolute';
+      btn.style.top = '6px';
+      btn.style.right = '6px';
+      btn.style.fontSize = '0.8rem';
+      btn.style.padding = '2px 6px';
+      btn.style.cursor = 'pointer';
+      btn.style.background = 'rgba(255,255,255,0.85)';
+      btn.style.border = '1px solid #ccc';
+      btn.style.borderRadius = '4px';
+      btn.style.zIndex = 10;
+
+      btn.addEventListener('click', async () => {
+        console.log('copying code...');
+        try {
+          // remove 📋 emoji after copying
+          await navigator.clipboard.writeText(code.innerText.replace(/📋/g, '').trim());
+          btn.textContent = '✅';
+          setTimeout(() => (btn.textContent = '📋'), 1500);
+        } catch (e) {
+          const ta = document.createElement('textarea');
+          ta.value = code.innerText;
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          btn.textContent = '✅';
+          setTimeout(() => (btn.textContent = '📋'), 1500);
+        }
+      });
+
+      code.appendChild(btn);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addCopyButtons);
+  } else {
+    addCopyButtons();
+  }
+})();
+</script>
+</body>
+</html>

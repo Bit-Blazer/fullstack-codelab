@@ -1,0 +1,27 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2025-09-16T23:12:06+05:30",
+  "id": "mini-feedback-board-fullstack",
+  "duration": 103,
+  "title": "Mini Feedback Board: Complete Fullstack Web Application",
+  "summary": "Build a Mini Feedback Board - A Complete Fullstack Web Application",
+  "source": ".\\complete-mini-feedback-board-codelab.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "webdevelopment",
+    "react",
+    "node.js",
+    "database"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "https://github.com/Bit-Blazer/",
+  "url": "mini-feedback-board-fullstack"
+}
