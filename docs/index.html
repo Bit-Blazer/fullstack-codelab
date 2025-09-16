@@ -230,8 +230,9 @@ app.get(&#34;/api/hello&#34;, (req, res) =&gt; {
       version: &#34;1.0.0&#34;,
       endpoints: [
         &#34;GET /api/hello&#34;,
-        &#34;GET /api/feedback (coming soon)&#34;,
-        &#34;POST /api/feedback (coming soon)&#34;,
+        &#34;GET /api/messages (coming soon)&#34;,
+        &#34;POST /api/messages (coming soon)&#34;,
+        &#34;POST /api/vote (coming soon)&#34;
       ],
     },
   });
@@ -240,7 +241,7 @@ app.get(&#34;/api/hello&#34;, (req, res) =&gt; {
 // Start the server
 app.listen(PORT, () =&gt; {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📝 API endpoints available at http://localhost:${PORT}/api`);
+  console.log(`📝 API endpoints available at http://localhost:${PORT}/api/hello`);
 });
 </code></pre>
 <h2 is-upgraded>Understanding the Code</h2>
@@ -572,6 +573,9 @@ require(&#34;dotenv&#34;).config();
 // Import required packages
 const express = require(&#34;express&#34;);
 const cors = require(&#34;cors&#34;);
+
+// Import the database connection
+const supabase = require(&#34;./config/database&#34;);
 
 // Create Express application
 const app = express();
@@ -1681,7 +1685,7 @@ function FeedbackList({ refreshTrigger }) {
                 &lt;span className=&#34;text-lg&#34;&gt;👎&lt;/span&gt;
                 &lt;span className=&#34;font-medium&#34;&gt;{message.downvotes}&lt;/span&gt;
               &lt;/button&gt;
-            &lt;/div&gt;;
+            &lt;/div&gt;
           &lt;/div&gt;
         ))}
       &lt;/div&gt;
@@ -1693,7 +1697,7 @@ export default FeedbackList;
 </code></pre>
 <h2 is-upgraded>Test Real Data Fetching</h2>
 <ol type="1">
-<li><strong>Make sure your backend server is running</strong> in the backend directory:<pre>npm run dev
+<li><strong>Make sure your backend server is running</strong> in the backend directory:<pre>npm start
 </pre>
 </li>
 <li><strong>Make sure your frontend is running</strong> in the frontend directory:<pre>npm run dev
@@ -1974,6 +1978,7 @@ export default FeedbackForm;
 import Header from &#34;./components/Header&#34;;
 import FeedbackForm from &#34;./components/FeedbackForm&#34;;
 import FeedbackList from &#34;./components/FeedbackList&#34;;
+import Footer from &#34;./components/Footer&#34;;
 
 function App() {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -1992,13 +1997,7 @@ function App() {
         &lt;FeedbackList refreshTrigger={refreshTrigger} /&gt;
       &lt;/main&gt;
 
-      &lt;footer className=&#34;bg-white border-t border-gray-200 mt-12&#34;&gt;
-        &lt;div className=&#34;max-w-6xl mx-auto px-4 py-6&#34;&gt;
-          &lt;p className=&#34;text-center text-gray-600&#34;&gt;
-            Built with React, Vite, TailwindCSS, and Supabase
-          &lt;/p&gt;
-        &lt;/div&gt;
-      &lt;/footer&gt;
+      &lt;Footer /&gt;
     &lt;/div&gt;
   );
 }
@@ -2064,11 +2063,8 @@ Replace <code>YOUR-USERNAME</code> with your actual GitHub username.</li>
 <li><strong>Click &#34;New Project&#34;</strong> in your Vercel dashboard</li>
 <li><strong>Import from GitHub</strong> - find your <code>mini-feedback-board</code> repository</li>
 <li><strong>Configure Project</strong>:<ul>
-<li><strong>Framework Preset</strong>: Other</li>
+<li><strong>Framework Preset</strong>: Express</li>
 <li><strong>Root Directory</strong>: <code>backend</code></li>
-<li><strong>Build Command</strong>: (leave empty)</li>
-<li><strong>Output Directory</strong>: (leave empty)</li>
-<li><strong>Install Command</strong>: <code>npm install</code></li>
 </ul>
 </li>
 <li><strong>Add Environment Variables</strong> (very important!): Click &#34;Environment Variables&#34; and add:<ul>
@@ -2104,6 +2100,10 @@ Copy these values from your <code>backend/.env</code> file.</li>
 const API_BASE_URL = &#34;https://your-backend-url.vercel.app/api&#34;; // Replace with your actual backend URL
 </code></pre>
 <p>Replace <code>https://your-backend-url.vercel.app</code> with your actual backend URL from the previous step.</p>
+<pre>git add .
+git commit -m &#34;Update frontend to use production backend URL&#34;
+git push
+</pre>
 <h2 is-upgraded>Deploy Frontend to Vercel</h2>
 <ol type="1">
 <li><strong>Go back to Vercel</strong> and click &#34;New Project&#34;</li>
@@ -2111,9 +2111,6 @@ const API_BASE_URL = &#34;https://your-backend-url.vercel.app/api&#34;; // Repla
 <li><strong>Configure Project</strong>:<ul>
 <li><strong>Framework Preset</strong>: Vite</li>
 <li><strong>Root Directory</strong>: <code>frontend</code></li>
-<li><strong>Build Command</strong>: <code>npm run build</code></li>
-<li><strong>Output Directory</strong>: <code>dist</code></li>
-<li><strong>Install Command</strong>: <code>npm install</code></li>
 </ul>
 </li>
 <li><strong>Click &#34;Deploy&#34;</strong></li>

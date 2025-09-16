@@ -266,8 +266,9 @@ app.get("/api/hello", (req, res) => {
       version: "1.0.0",
       endpoints: [
         "GET /api/hello",
-        "GET /api/feedback (coming soon)",
-        "POST /api/feedback (coming soon)",
+        "GET /api/messages (coming soon)",
+        "POST /api/messages (coming soon)",
+        "POST /api/vote (coming soon)"
       ],
     },
   });
@@ -276,7 +277,7 @@ app.get("/api/hello", (req, res) => {
 // Start the server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📝 API endpoints available at http://localhost:${PORT}/api`);
+  console.log(`📝 API endpoints available at http://localhost:${PORT}/api/hello`);
 });
 ```
 
@@ -649,6 +650,9 @@ require("dotenv").config();
 // Import required packages
 const express = require("express");
 const cors = require("cors");
+
+// Import the database connection
+const supabase = require("./config/database");
 
 // Create Express application
 const app = express();
@@ -1892,7 +1896,7 @@ function FeedbackList({ refreshTrigger }) {
                 <span className="text-lg">👎</span>
                 <span className="font-medium">{message.downvotes}</span>
               </button>
-            </div>;
+            </div>
           </div>
         ))}
       </div>
@@ -1908,7 +1912,7 @@ export default FeedbackList;
 1. **Make sure your backend server is running** in the backend directory:
 
    ```console
-   npm run dev
+   npm start
    ```
 
 2. **Make sure your frontend is running** in the frontend directory:
@@ -2200,6 +2204,7 @@ import { useState } from "react";
 import Header from "./components/Header";
 import FeedbackForm from "./components/FeedbackForm";
 import FeedbackList from "./components/FeedbackList";
+import Footer from "./components/Footer";
 
 function App() {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -2218,13 +2223,7 @@ function App() {
         <FeedbackList refreshTrigger={refreshTrigger} />
       </main>
 
-      <footer className="bg-white border-t border-gray-200 mt-12">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <p className="text-center text-gray-600">
-            Built with React, Vite, TailwindCSS, and Supabase
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
@@ -2308,11 +2307,8 @@ Let's deploy your Express.js backend API to Vercel first.
 
 3. **Configure Project**:
 
-   - **Framework Preset**: Other
+   - **Framework Preset**: Express
    - **Root Directory**: `backend`
-   - **Build Command**: (leave empty)
-   - **Output Directory**: (leave empty)
-   - **Install Command**: `npm install`
 
 4. **Add Environment Variables** (very important!):
    Click "Environment Variables" and add:
@@ -2369,6 +2365,12 @@ const API_BASE_URL = "https://your-backend-url.vercel.app/api"; // Replace with 
 
 Replace `https://your-backend-url.vercel.app` with your actual backend URL from the previous step.
 
+```console
+git add .
+git commit -m "Update frontend to use production backend URL"
+git push
+```
+
 ### Deploy Frontend to Vercel
 
 1. **Go back to Vercel** and click "New Project"
@@ -2379,9 +2381,6 @@ Replace `https://your-backend-url.vercel.app` with your actual backend URL from 
 
    - **Framework Preset**: Vite
    - **Root Directory**: `frontend`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-   - **Install Command**: `npm install`
 
 4. **Click "Deploy"**
 
