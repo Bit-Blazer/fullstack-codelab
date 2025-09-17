@@ -575,6 +575,11 @@ PORT=3001
 
 Create or update your `.gitignore` file in the **backend** folder:
 
+```git
+node_modules
+.env
+```
+
 This prevents your secret keys from being committed to Git.
 
 ## Install Supabase JavaScript Client
