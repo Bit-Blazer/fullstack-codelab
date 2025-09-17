@@ -385,11 +385,7 @@ Supabase is perfect for our project because it provides:
 
 ### Create Your Supabase Account
 
-1. **Visit Supabase:**
-
-   ```console
-   https://supabase.com
-   ```
+1. **Visit [Supabase](https://supabase.com):**
 
 2. **Click "Start your project"** or **"Sign Up"**
 
